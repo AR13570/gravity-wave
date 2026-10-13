@@ -1,0 +1,10 @@
+node_modules/
+dist/
+demo-dist/
+*.tgz
+.validation/
+
+# Local design and validation records
+docs/superpowers/
+docs/progress.md
+docs/validation.md

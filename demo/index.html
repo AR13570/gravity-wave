@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#e9ecef" />
+    <title>gravity-wave / playground</title>
+  </head>
+  <body>
+    <main>
+      <header>
+        <a class="wordmark" href="#"
+          >gravity-wave<span class="mark" aria-hidden="true">◌</span></a
+        ><span class="header-note">An open canvas for motion.</span>
+      </header>
+      <div class="workbench">
+        <section class="visual" aria-label="Wave preview">
+          <div class="intro">
+            <h1>A little pull.<br />A little ripple.</h1>
+            <p>Circular fields. Organic contours.<br />Find your own rhythm.</p>
+          </div>
+          <div class="stage">
+            <canvas id="wave" aria-hidden="true"></canvas
+            ><span class="center-dot" aria-hidden="true"></span>
+          </div>
+          <div class="transport">
+            <div>
+              <button id="pause" type="button">Pause</button
+              ><button id="restart" type="button">Restart</button>
+            </div>
+            <span id="status" role="status">Continuous playback</span>
+          </div>
+        </section>
+        <aside class="controls" aria-label="Wave controls">
+          <h2>Make it move</h2>
+          <form id="controls">
+            <fieldset>
+              <legend>Shape</legend>
+              <label
+                >Wave mode<select name="mode">
+                  <option value="circular">Circular</option>
+                  <option value="morphing">Morphing</option>
+                </select></label
+              >
+              <label
+                >Direction<select name="direction">
+                  <option value="inward">Inward</option>
+                  <option value="outward">Outward</option>
+                </select></label
+              >
+              <label
+                >Sources<select name="sources">
+                  <option value="single">One field</option>
+                  <option value="multiple">Three fields</option>
+                </select></label
+              >
+              <label for="radius"
+                >Effect radius <output for="radius">200 px</output
+                ><input
+                  id="radius"
+                  name="radius"
+                  type="range"
+                  min="100"
+                  max="400"
+                  value="200"
+              /></label>
+              <label for="innerRadius"
+                >Empty center <output for="innerRadius">60 px</output
+                ><input
+                  id="innerRadius"
+                  name="innerRadius"
+                  type="range"
+                  min="0"
+                  max="90"
+                  value="60"
+              /></label>
+              <label for="wavelength"
+                >Wave spacing <output for="wavelength">52.4 px</output
+                ><input
+                  id="wavelength"
+                  name="wavelength"
+                  type="range"
+                  min="16"
+                  max="120"
+                  step="0.1"
+                  value="52.4"
+              /></label>
+              <label for="amplitude"
+                >Relief height <output for="amplitude">28 px</output
+                ><input
+                  id="amplitude"
+                  name="amplitude"
+                  type="range"
+                  min="0"
+                  max="90"
+                  value="28"
+              /></label>
+              <div id="morph-controls" hidden>
+                <label for="morphAmount"
+                  >Morph amount <output for="morphAmount">0.35</output
+                  ><input
+                    id="morphAmount"
+                    name="morphAmount"
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value="0.35"
+                /></label>
+                <label for="morphSpeed"
+                  >Morph speed <output for="morphSpeed">1×</output
+                  ><input
+                    id="morphSpeed"
+                    name="morphSpeed"
+                    type="range"
+                    min="0"
+                    max="3"
+                    step="0.05"
+                    value="1"
+                /></label>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>Rhythm</legend>
+              <label for="speed"
+                >Travel speed <output for="speed">1×</output
+                ><input
+                  id="speed"
+                  name="speed"
+                  type="range"
+                  min="0"
+                  max="4"
+                  step="0.05"
+                  value="1"
+              /></label>
+              <label
+                >Run for<select name="duration">
+                  <option value="Infinity">Continuously</option>
+                  <option value="3">3 seconds</option>
+                  <option value="5">5 seconds</option>
+                  <option value="10">10 seconds</option>
+                </select></label
+              >
+              <label
+                >Reduced motion<select name="reducedMotion">
+                  <option value="auto">Follow system</option>
+                  <option value="true">Static preview</option>
+                  <option value="false">Allow animation</option>
+                </select></label
+              >
+            </fieldset>
+            <details>
+              <summary>Appearance</summary>
+              <fieldset class="appearance">
+                <legend class="sr-only">Appearance controls</legend>
+                <label for="pointSize"
+                  >Point size <output for="pointSize">1×</output
+                  ><input
+                    id="pointSize"
+                    name="pointSize"
+                    type="range"
+                    min="0.4"
+                    max="2.5"
+                    step="0.05"
+                    value="1"
+                /></label>
+                <label for="opacity"
+                  >Opacity <output for="opacity">100%</output
+                  ><input
+                    id="opacity"
+                    name="opacity"
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value="1"
+                /></label>
+                <label
+                  >Density<select name="density">
+                    <option value="auto">Automatic</option>
+                    <option value="low">Low</option>
+                    <option value="high">High</option>
+                  </select></label
+                >
+                <div class="color-row">
+                  <label
+                    >Wave color<input
+                      name="color"
+                      type="color"
+                      value="#527c9a" /></label
+                  ><label
+                    >Shadow<input
+                      name="shadowColor"
+                      type="color"
+                      value="#303943"
+                  /></label>
+                </div>
+              </fieldset>
+            </details>
+          </form>
+        </aside>
+      </div>
+      <section class="usage">
+        <div>
+          <h2>Drop it into your canvas.</h2>
+          <p>
+            Use plain JavaScript, or bring the React component.<br />One
+            package, your own surface.
+          </p>
+          <code class="install">npm install gravity-wave</code
+          ><small>Local preview. Package publication is pending.</small>
+        </div>
+        <div class="code-panel">
+          <div class="code-tabs">
+            <button type="button" data-code="vanilla" aria-pressed="true">
+              JavaScript</button
+            ><button type="button" data-code="react" aria-pressed="false">
+              React</button
+            ><button id="copy" type="button">Copy code</button>
+          </div>
+          <pre><code id="snippet"></code></pre>
+        </div>
+      </section>
+      <footer>
+        <span>gravity-wave</span><span>Canvas2D · MIT license</span>
+      </footer>
+    </main>
+    <script type="module" src="/main.ts"></script>
+  </body>
+</html>

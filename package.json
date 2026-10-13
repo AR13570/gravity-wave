@@ -1,0 +1,70 @@
+{
+  "name": "gravity-wave",
+  "version": "0.1.0",
+  "description": "Circular and morphing Canvas2D wave fields, with an optional React component.",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "import": "./dist/react.js"
+    }
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.demo.json --noEmit",
+    "test": "vitest run",
+    "dev": "vite --host 127.0.0.1",
+    "demo:build": "vite build",
+    "check:package": "node scripts/check-package.mjs",
+    "prepack": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "jsdom": "^26.1.0",
+    "prettier": "^3.9.10",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.7",
+    "vitest": "^5.0.4"
+  },
+  "author": "Arnav Asodu Rajesh",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AR13570/gravity-wave.git"
+  },
+  "homepage": "https://github.com/AR13570/gravity-wave#readme",
+  "bugs": {
+    "url": "https://github.com/AR13570/gravity-wave/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
