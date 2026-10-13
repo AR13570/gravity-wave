@@ -1,6 +1,6 @@
 # Releasing gravity-wave
 
-The implementation is local. Remote creation, Git initialization, commits, pushes, publication, and public hosting are separate actions requiring the owner's explicit instruction.
+Version 0.1.0 is published on npm as `gravity-wave`, owned by `arnav_07`. Source and the matching GitHub release are at https://github.com/AR13570/gravity-wave. Remote creation, Git initialization, commits, pushes, publication, and public hosting are separate actions requiring the owner's explicit instruction.
 
 ## Before the first release
 

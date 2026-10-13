@@ -6,6 +6,8 @@ The framework-independent core has no runtime dependencies. React is only needed
 
 Source: https://github.com/AR13570/gravity-wave
 
+Package: https://www.npmjs.com/package/gravity-wave
+
 Copyright © 2026 Arnav Asodu Rajesh. Released under the MIT license.
 
 ## Run the playground
@@ -23,7 +25,7 @@ Open http://127.0.0.1:5193. The playground exposes both modes, multiple sources,
 npm install gravity-wave
 ```
 
-To try the local package before publication:
+To try a local development build:
 
 ```sh
 npm run build
