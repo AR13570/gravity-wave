@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1
+
+- Add real-renderer still images, animated previews, and MP4 recordings to the README.
+- Use public media URLs so the same previews work on GitHub and npm.
+- Keep media files out of the installed package; runtime behavior is unchanged.
+
 ## 0.1.0
 
 - Circular and smoothly morphing Canvas2D wave fields.

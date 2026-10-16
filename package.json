@@ -1,6 +1,6 @@
 {
   "name": "gravity-wave",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Circular and morphing Canvas2D wave fields, with an optional React component.",
   "type": "module",
   "license": "MIT",

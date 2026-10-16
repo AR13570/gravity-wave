@@ -2,6 +2,25 @@
 
 Circular and morphing wave fields drawn with Canvas2D. A quiet lattice of points creates animated relief, with inward or outward flow, distance fading, and an optional React component.
 
+## Preview
+
+![Circular inward waves and morphing outward waves rendered by gravity-wave](https://raw.githubusercontent.com/AR13570/gravity-wave/main/docs/media/comparison.png)
+
+Circular waves flow inward on the left; morphing waves flow outward on the right. These captures use the real Canvas2D renderer, its default colors, and the accepted default opacity. The morphing example uses `morphAmount: 0.65` to make the changing contours easy to see.
+
+<details>
+<summary>Watch the animated comparison</summary>
+
+![An 8.1-second recording of circular and morphing waves](https://raw.githubusercontent.com/AR13570/gravity-wave/main/docs/media/preview.gif)
+
+The GIF repeats the recording. The circular animation has a 2.7-second crest cycle; the morphing contours continue evolving during normal playback.
+
+</details>
+
+**Video recordings:** [Circular inward waves (MP4)](https://github.com/AR13570/gravity-wave/blob/main/docs/media/circular.mp4) · [Morphing outward waves (MP4)](https://github.com/AR13570/gravity-wave/blob/main/docs/media/morphing.mp4)
+
+Each video is an 8.1-second capture at 30 frames per second. [Open the full-resolution still](https://raw.githubusercontent.com/AR13570/gravity-wave/main/docs/media/comparison.png) or [watch the seamless circular loop](https://raw.githubusercontent.com/AR13570/gravity-wave/main/docs/media/circular.gif).
+
 The framework-independent core has no runtime dependencies. React is only needed for `gravity-wave/react`.
 
 Source: https://github.com/AR13570/gravity-wave
@@ -31,7 +50,7 @@ To try a local development build:
 npm run build
 npm pack
 # In your application, install the generated .tgz file:
-npm install /absolute/path/to/gravity-wave-0.1.0.tgz
+npm install /absolute/path/to/gravity-wave-0.1.1.tgz
 ```
 
 The package exports ESM and TypeScript declarations. Use a modern browser or bundler; CommonJS and native mobile rendering are not supported.
