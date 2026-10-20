@@ -29,6 +29,7 @@ const keys = [
   "color",
   "shadowColor",
   "opacity",
+  "intensity",
   "morphAmount",
   "morphSpeed",
   "fields",

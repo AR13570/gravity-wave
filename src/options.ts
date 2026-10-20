@@ -91,6 +91,7 @@ export function resolveField(
     color: color(ctx, input.color ?? "#527c9a"),
     shadowColor: color(ctx, input.shadowColor ?? "#303943"),
     opacity: unit("opacity", input.opacity ?? 1),
+    intensity: numberOption("intensity", input.intensity ?? 1),
     morphAmount: unit("morphAmount", input.morphAmount ?? 0.35),
     morphSpeed: numberOption("morphSpeed", input.morphSpeed ?? 1),
   };

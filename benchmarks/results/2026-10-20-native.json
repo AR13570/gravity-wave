@@ -1,0 +1,340 @@
+{
+  "baselineVersion": "0.1.1",
+  "candidateVersion": "0.2.0",
+  "before": {
+    "backend": "@napi-rs/canvas",
+    "node": "v24.14.0",
+    "results": [
+      {
+        "mode": "circular",
+        "scale": 0.4,
+        "fields": 1,
+        "dpr": 2,
+        "coldMs": 4.6997499999999945,
+        "medianMs": 1.209016600000001,
+        "p95Ms": 1.2683707999999996
+      },
+      {
+        "mode": "circular",
+        "scale": 0.4,
+        "fields": 3,
+        "dpr": 2,
+        "coldMs": 3.4429169999999942,
+        "medianMs": 2.9000958999999966,
+        "p95Ms": 3.5644209000000044
+      },
+      {
+        "mode": "circular",
+        "scale": 0.4,
+        "fields": 7,
+        "dpr": 2,
+        "coldMs": 5.705000000000041,
+        "medianMs": 5.783062500000005,
+        "p95Ms": 5.8431374999999885
+      },
+      {
+        "mode": "circular",
+        "scale": 1,
+        "fields": 1,
+        "dpr": 2,
+        "coldMs": 2.050666999999976,
+        "medianMs": 2.005616699999996,
+        "p95Ms": 2.026583299999993
+      },
+      {
+        "mode": "circular",
+        "scale": 1,
+        "fields": 3,
+        "dpr": 2,
+        "coldMs": 5.394749999999931,
+        "medianMs": 5.5202792000000045,
+        "p95Ms": 5.8524625000000015
+      },
+      {
+        "mode": "circular",
+        "scale": 1,
+        "fields": 7,
+        "dpr": 2,
+        "coldMs": 12.370124999999916,
+        "medianMs": 12.342925000000013,
+        "p95Ms": 12.496679099999984
+      },
+      {
+        "mode": "circular",
+        "scale": 2,
+        "fields": 1,
+        "dpr": 2,
+        "coldMs": 2.1109580000002097,
+        "medianMs": 1.9993333999999776,
+        "p95Ms": 2.089837499999976
+      },
+      {
+        "mode": "circular",
+        "scale": 2,
+        "fields": 3,
+        "dpr": 2,
+        "coldMs": 5.650708000000122,
+        "medianMs": 5.461920900000041,
+        "p95Ms": 5.496116600000005
+      },
+      {
+        "mode": "circular",
+        "scale": 2,
+        "fields": 7,
+        "dpr": 2,
+        "coldMs": 12.230457999999999,
+        "medianMs": 12.405383299999993,
+        "p95Ms": 12.499983299999986
+      },
+      {
+        "mode": "morphing",
+        "scale": 0.4,
+        "fields": 1,
+        "dpr": 2,
+        "coldMs": 4.411041999999725,
+        "medianMs": 1.2197167000000264,
+        "p95Ms": 1.2306166999999733
+      },
+      {
+        "mode": "morphing",
+        "scale": 0.4,
+        "fields": 3,
+        "dpr": 2,
+        "coldMs": 3.103041999999732,
+        "medianMs": 3.055562499999996,
+        "p95Ms": 3.096812500000033
+      },
+      {
+        "mode": "morphing",
+        "scale": 0.4,
+        "fields": 7,
+        "dpr": 2,
+        "coldMs": 6.538916000000427,
+        "medianMs": 6.724975000000086,
+        "p95Ms": 7.180754200000047
+      },
+      {
+        "mode": "morphing",
+        "scale": 1,
+        "fields": 1,
+        "dpr": 2,
+        "coldMs": 2.4512500000000728,
+        "medianMs": 2.3583834000000934,
+        "p95Ms": 2.4587125000000016
+      },
+      {
+        "mode": "morphing",
+        "scale": 1,
+        "fields": 3,
+        "dpr": 2,
+        "coldMs": 6.3602499999997235,
+        "medianMs": 6.401724999999897,
+        "p95Ms": 8.189937499999905
+      },
+      {
+        "mode": "morphing",
+        "scale": 1,
+        "fields": 7,
+        "dpr": 2,
+        "coldMs": 14.510709000000134,
+        "medianMs": 14.497299999999996,
+        "p95Ms": 14.618716700000004
+      },
+      {
+        "mode": "morphing",
+        "scale": 2,
+        "fields": 1,
+        "dpr": 2,
+        "coldMs": 2.3522499999999127,
+        "medianMs": 2.3175916999998663,
+        "p95Ms": 2.3542499999999564
+      },
+      {
+        "mode": "morphing",
+        "scale": 2,
+        "fields": 3,
+        "dpr": 2,
+        "coldMs": 6.609542000000147,
+        "medianMs": 6.389533399999891,
+        "p95Ms": 6.536208299999998
+      },
+      {
+        "mode": "morphing",
+        "scale": 2,
+        "fields": 7,
+        "dpr": 2,
+        "coldMs": 14.442291999999725,
+        "medianMs": 14.512458400000105,
+        "p95Ms": 14.71990420000002
+      }
+    ]
+  },
+  "after": {
+    "backend": "@napi-rs/canvas",
+    "node": "v24.14.0",
+    "results": [
+      {
+        "mode": "circular",
+        "scale": 0.4,
+        "fields": 1,
+        "dpr": 2,
+        "coldMs": 4.167999999999999,
+        "medianMs": 0.8625541999999996,
+        "p95Ms": 0.8736540999999989
+      },
+      {
+        "mode": "circular",
+        "scale": 0.4,
+        "fields": 3,
+        "dpr": 2,
+        "coldMs": 2.909165999999999,
+        "medianMs": 2.1281750000000046,
+        "p95Ms": 2.280899999999997
+      },
+      {
+        "mode": "circular",
+        "scale": 0.4,
+        "fields": 7,
+        "dpr": 2,
+        "coldMs": 4.708167000000003,
+        "medianMs": 4.583129099999985,
+        "p95Ms": 4.635749999999996
+      },
+      {
+        "mode": "circular",
+        "scale": 1,
+        "fields": 1,
+        "dpr": 2,
+        "coldMs": 1.772666000000072,
+        "medianMs": 1.6089541000000054,
+        "p95Ms": 1.6772666999999957
+      },
+      {
+        "mode": "circular",
+        "scale": 1,
+        "fields": 3,
+        "dpr": 2,
+        "coldMs": 4.42775000000006,
+        "medianMs": 4.403275000000008,
+        "p95Ms": 4.578308399999992
+      },
+      {
+        "mode": "circular",
+        "scale": 1,
+        "fields": 7,
+        "dpr": 2,
+        "coldMs": 10.104207999999971,
+        "medianMs": 9.781029099999978,
+        "p95Ms": 9.859670800000004
+      },
+      {
+        "mode": "circular",
+        "scale": 2,
+        "fields": 1,
+        "dpr": 2,
+        "coldMs": 1.8417089999998097,
+        "medianMs": 1.614908400000013,
+        "p95Ms": 1.6329584000000068
+      },
+      {
+        "mode": "circular",
+        "scale": 2,
+        "fields": 3,
+        "dpr": 2,
+        "coldMs": 4.419458000000304,
+        "medianMs": 4.3310375000000025,
+        "p95Ms": 4.554179199999998
+      },
+      {
+        "mode": "circular",
+        "scale": 2,
+        "fields": 7,
+        "dpr": 2,
+        "coldMs": 10.195208000000093,
+        "medianMs": 9.770504200000051,
+        "p95Ms": 9.851858400000037
+      },
+      {
+        "mode": "morphing",
+        "scale": 0.4,
+        "fields": 1,
+        "dpr": 2,
+        "coldMs": 2.831666000000041,
+        "medianMs": 0.8921083000000181,
+        "p95Ms": 0.9031458000000384
+      },
+      {
+        "mode": "morphing",
+        "scale": 0.4,
+        "fields": 3,
+        "dpr": 2,
+        "coldMs": 2.504791999999725,
+        "medianMs": 2.1901959000000715,
+        "p95Ms": 2.8344082999999953
+      },
+      {
+        "mode": "morphing",
+        "scale": 0.4,
+        "fields": 7,
+        "dpr": 2,
+        "coldMs": 4.991750000000138,
+        "medianMs": 4.650079199999982,
+        "p95Ms": 4.86913340000001
+      },
+      {
+        "mode": "morphing",
+        "scale": 1,
+        "fields": 1,
+        "dpr": 2,
+        "coldMs": 2.3232920000000377,
+        "medianMs": 1.6450792000000547,
+        "p95Ms": 1.6913790999999947
+      },
+      {
+        "mode": "morphing",
+        "scale": 1,
+        "fields": 3,
+        "dpr": 2,
+        "coldMs": 5.121875000000728,
+        "medianMs": 4.41880000000001,
+        "p95Ms": 4.445162499999969
+      },
+      {
+        "mode": "morphing",
+        "scale": 1,
+        "fields": 7,
+        "dpr": 2,
+        "coldMs": 10.554290999999466,
+        "medianMs": 9.903920900000049,
+        "p95Ms": 10.02193329999991
+      },
+      {
+        "mode": "morphing",
+        "scale": 2,
+        "fields": 1,
+        "dpr": 2,
+        "coldMs": 2.3143330000002607,
+        "medianMs": 1.6330125000000408,
+        "p95Ms": 1.782774999999856
+      },
+      {
+        "mode": "morphing",
+        "scale": 2,
+        "fields": 3,
+        "dpr": 2,
+        "coldMs": 4.902250000001004,
+        "medianMs": 4.421829199999957,
+        "p95Ms": 4.500350000000071
+      },
+      {
+        "mode": "morphing",
+        "scale": 2,
+        "fields": 7,
+        "dpr": 2,
+        "coldMs": 10.328417000000627,
+        "medianMs": 9.900637499999903,
+        "p95Ms": 10.274374999999964
+      }
+    ]
+  }
+}

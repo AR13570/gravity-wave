@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><title>gravity-wave renderer benchmark</title>
+  <style>
+    body {
+      font: 16px system-ui;
+      padding: 24px;
+      background: #edf0f4;
+      color: #1b2835;
+    }
+    button {
+      padding: 12px;
+    }
+    canvas {
+      max-width: 900px;
+      width: 100%;
+      display: block;
+    }
+    pre {
+      white-space: pre-wrap;
+    }
+  </style>
+  <h1>gravity-wave renderer benchmark</h1>
+  <p>
+    900 × 700 CSS pixels, DPR 2. CPU submission time, 40 warmup frames, 9
+    batches of 10 frames. Readback flushes outside timing. Not a frame-rate or
+    GPU timing measurement.
+  </p>
+  <button id="baseline">Run baseline</button>
+  <button id="candidate">Run candidate</button>
+  <p id="status">Ready</p>
+  <canvas id="canvas"></canvas>
+  <pre id="results"></pre>
+  <script type="module">
+    import { measure } from "./measure.mjs";
+    const canvas = document.querySelector("canvas"),
+      output = document.querySelector("#results"),
+      status = document.querySelector("#status");
+    for (const kind of ["baseline", "candidate"])
+      document.querySelector("#" + kind).onclick = async () => {
+        const buttons = document.querySelectorAll("button");
+        if ([...buttons].some((button) => button.disabled)) return;
+        buttons.forEach((button) => {
+          button.disabled = true;
+        });
+        status.textContent = "Running " + kind;
+        try {
+          const module = await import(
+            kind === "baseline"
+              ? "../.validation/baseline/index.js"
+              : "../dist/index.js"
+          );
+          const rows = await measure(module.createWaveRenderer, (w, h) => {
+            canvas.width = w;
+            canvas.height = h;
+            return canvas;
+          });
+          output.textContent = JSON.stringify(
+            { kind, userAgent: navigator.userAgent, results: rows },
+            null,
+            2,
+          );
+          status.textContent = "Complete " + kind;
+        } catch (e) {
+          status.textContent = String(e);
+        } finally {
+          buttons.forEach((button) => {
+            button.disabled = false;
+          });
+        }
+      };
+  </script>
+</html>

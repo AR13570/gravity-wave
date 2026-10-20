@@ -85,8 +85,8 @@ try {
       );
     const types =
       kind === "vanilla"
-        ? `import {createWaveRenderer,createGravityWave} from '${manifest.name}';const wave=createGravityWave(document.createElement('canvas'),{mode:'morphing',duration:5});wave.renderAt(1);createWaveRenderer(document.createElement('canvas').getContext('2d')!).draw([{center:{x:0,y:0}}],0);`
-        : `import {createElement} from 'react';import {GravityWave} from '${manifest.name}/react';createElement(GravityWave,{mode:'morphing',duration:5,style:{height:300}});`;
+        ? `import {createWaveRenderer,createGravityWave} from '${manifest.name}';const wave=createGravityWave(document.createElement('canvas'),{mode:'morphing',intensity:1.5,opacity:0.8,duration:5});wave.renderAt(1);createWaveRenderer(document.createElement('canvas').getContext('2d')!).draw([{center:{x:0,y:0},intensity:2}],0);`
+        : `import {createElement} from 'react';import {GravityWave} from '${manifest.name}/react';createElement(GravityWave,{mode:'morphing',intensity:1.5,opacity:0.8,duration:5,style:{height:300}});`;
     writeFileSync(join(cwd, "types.ts"), types);
     run(
       process.execPath,

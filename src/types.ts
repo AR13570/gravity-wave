@@ -19,7 +19,10 @@ export interface WaveAppearance {
   density?: WaveDensity;
   color?: string;
   shadowColor?: string;
+  /** Transparency multiplier from zero to one. */
   opacity?: number;
+  /** Nonnegative shading gain, clamped before opacity. Defaults to one. */
+  intensity?: number;
   morphAmount?: number;
   morphSpeed?: number;
 }

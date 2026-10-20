@@ -50,7 +50,7 @@ To try a local development build:
 npm run build
 npm pack
 # In your application, install the generated .tgz file:
-npm install /absolute/path/to/gravity-wave-0.1.1.tgz
+npm install /absolute/path/to/gravity-wave-0.2.0.tgz
 ```
 
 The package exports ESM and TypeScript declarations. Use a modern browser or bundler; CommonJS and native mobile rendering are not supported.
@@ -164,6 +164,7 @@ Dimensions use CSS pixels for the dedicated controller. Times use seconds.
 | `color`         | `'#527c9a'`               | Lit wave color, using a valid Canvas2D CSS color.                   |
 | `shadowColor`   | `'#303943'`               | Shadow color.                                                       |
 | `opacity`       | `1`                       | Overall multiplier from zero to one.                                |
+| `intensity`     | `1`                       | Nonnegative shading gain; values above one strengthen the wave.     |
 | `morphAmount`   | `0.35`                    | Contour deformation from zero to one.                               |
 | `morphSpeed`    | `1`                       | Nonnegative deformation speed, independent of travel speed.         |
 | `duration`      | `Infinity`                | Total active playback seconds; nonnegative.                         |
@@ -204,11 +205,31 @@ Hidden documents, offscreen canvases, and zero-size containers suspend active ti
 
 Use the effect as decoration. If it communicates status, provide a separate text equivalent and avoid relying on motion or color alone.
 
+## Opacity and intensity
+
+`opacity` keeps its usual zero-to-one transparency range. `intensity` adjusts the shading strength independently, with a default of `1` that preserves the previous appearance. Use it when the default wave is too subtle, including on dark backgrounds:
+
+```js
+wave.update({ intensity: 1.5, opacity: 1 });
+
+// With the shared-canvas renderer, put appearance options on each field:
+renderer.draw(
+  [{ center: { x: 240, y: 220 }, intensity: 1.5, opacity: 0.8 }],
+  activeElapsedSeconds,
+);
+```
+
+```jsx
+<GravityWave intensity={1.5} opacity={1} style={{ height: 420 }} />
+```
+
+The per-shade alpha is `callerGlobalAlpha * opacity * min(1, defaultShadeAlpha * intensity)`. Gain is clamped **before** either opacity multiplier, so increasing intensity never bypasses a caller's transparency setting. It strengthens both lit and shadow shades without adding geometry or another draw pass. It does not change the chosen colors. `0` hides a field; negative or non-finite values throw. Removing an optional `intensity` prop or updating it to `undefined` resets it to `1`. Explicit `fields` keep independent defaults, as with the other appearance options. A gain of `1.5` is a starting point, not an exact match for drawing twice, whose overlapping alpha is nonlinear.
+
 ## Performance and supported browsers
 
-The renderer reuses one 85,264-byte sample buffer and batches sixteen shade paths per field. It considers at most 73 by 73 samples per high-density patch and 49 by 49 at low density. No points are allocated inside the lattice loop. Large radii increase spacing rather than growing the sample budget. Multiple fields add linear rendering cost; evaluate your scene on the target device.
+The renderer reuses one 85,264-byte point/bucket buffer and two small bucket index arrays. It batches sixteen shade paths per field in stable order, visiting each point once for sampling and once for painting. A bounded per-renderer cache shares static geometry across matching fields, including fresh input objects or moving centers. The eight most recently used grids consume at most about 3.6 MiB in total for morphing at the highest density, plus the point buffer. Geometry changes such as radii or sampling step rebuild a grid; time, center, colors, intensity, wavelength, and relief changes reuse it. Continuous zoom can rebuild grids when it changes the sampling step. Destruction clears the cache. It considers at most 73 by 73 samples per high-density patch and 49 by 49 at low density. No points are allocated inside the lattice loop. Large radii increase spacing rather than growing the sample budget. Multiple fields add linear rendering cost; evaluate your scene on the target device.
 
-The core uses Canvas2D. The controller targets modern Safari, Chrome, Firefox, iOS Safari, and Android Chrome with animation frames, matchMedia, and ResizeObserver. IntersectionObserver is used when available; without it, document visibility still suspends playback. Browser compatibility targets are broader than the browsers actually verified; see `docs/validation.md` for recorded checks.
+The core uses Canvas2D. The controller targets modern Safari, Chrome, Firefox, iOS Safari, and Android Chrome with animation frames, matchMedia, and ResizeObserver. IntersectionObserver is used when available; without it, document visibility still suspends playback. Browser compatibility targets are broader than the browsers actually verified. See [the performance report](https://github.com/AR13570/gravity-wave/blob/main/docs/performance.md) for benchmark methodology, results, and limitations.
 
 ## Develop and release
 

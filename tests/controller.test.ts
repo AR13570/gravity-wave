@@ -183,3 +183,18 @@ it("restores playback and backing resolution when optional controls are removed"
   expect(e.canvas.width).toBe(1200);
   c.destroy();
 });
+
+it("updates and resets intensity without changing playback", () => {
+  const e = environment();
+  const c = createGravityWave(e.canvas, { playing: false });
+  const before = Math.max(...e.points.map((p) => p.alpha));
+  e.points.length = 0;
+  c.update({ intensity: 2 });
+  expect(Math.max(...e.points.map((p) => p.alpha))).toBeCloseTo(before * 2);
+  expect(c.getState().playing).toBe(false);
+  e.points.length = 0;
+  c.update({ intensity: undefined });
+  expect(Math.max(...e.points.map((p) => p.alpha))).toBeCloseTo(before);
+  expect(() => c.update({ intensity: -1 })).toThrow(/intensity/);
+  c.destroy();
+});

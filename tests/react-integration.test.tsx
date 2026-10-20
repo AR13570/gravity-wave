@@ -64,3 +64,24 @@ it("integrates Strict Mode, removed props, imperative pause, and zero-size suspe
   expect(e.mediaListeners.size).toBe(0);
   expect(e.disconnect).toHaveBeenCalledTimes(4);
 });
+
+it("applies, updates and resets the intensity prop", async () => {
+  const e = environment();
+  vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(e.ctx);
+  vi.spyOn(
+    HTMLCanvasElement.prototype,
+    "getBoundingClientRect",
+  ).mockImplementation(() => e.canvas.getBoundingClientRect());
+  const el = document.createElement("div");
+  document.body.append(el);
+  const root = createRoot(el);
+  await act(() => root.render(<GravityWave playing={false} intensity={2} />));
+  expect(Math.max(...e.points.map((p) => p.alpha))).toBeCloseTo(0.532);
+  e.points.length = 0;
+  await act(() => root.render(<GravityWave playing={false} intensity={0.5} />));
+  expect(Math.max(...e.points.map((p) => p.alpha))).toBeCloseTo(0.133);
+  e.points.length = 0;
+  await act(() => root.render(<GravityWave playing={false} />));
+  expect(Math.max(...e.points.map((p) => p.alpha))).toBeCloseTo(0.266);
+  await act(() => root.unmount());
+});

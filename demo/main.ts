@@ -67,11 +67,12 @@ function updateSources(): void {
 function showCode(): void {
   const m = config.mode ?? "circular",
     speed = config.speed ?? 1,
-    radius = config.radius ?? 200;
+    radius = config.radius ?? 200,
+    intensity = config.intensity ?? 1;
   snippet.textContent =
     codeMode === "react"
-      ? `import { GravityWave } from 'gravity-wave/react';\n\n<GravityWave\n  mode="${m}"\n  radius={${radius}}\n  speed={${speed}}\n  style={{ height: 420 }}\n/>`
-      : `import { createGravityWave } from 'gravity-wave';\n\nconst wave = createGravityWave(canvas, {\n  mode: '${m}',\n  radius: ${radius},\n  speed: ${speed},\n});\n\n// When the view is removed:\nwave.destroy();`;
+      ? `import { GravityWave } from 'gravity-wave/react';\n\n<GravityWave\n  mode="${m}"\n  radius={${radius}}\n  speed={${speed}}\n  intensity={${intensity}}\n  style={{ height: 420 }}\n/>`
+      : `import { createGravityWave } from 'gravity-wave';\n\nconst wave = createGravityWave(canvas, {\n  mode: '${m}',\n  radius: ${radius},\n  speed: ${speed},\n  intensity: ${intensity},\n});\n\n// When the view is removed:\nwave.destroy();`;
 }
 function refresh(): void {
   config = options();
@@ -93,7 +94,9 @@ function refresh(): void {
             input.name,
           )
             ? " px"
-            : ["speed", "pointSize", "morphSpeed"].includes(input.name)
+            : ["speed", "pointSize", "morphSpeed", "intensity"].includes(
+                  input.name,
+                )
               ? "×"
               : "");
   }

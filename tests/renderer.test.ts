@@ -1,5 +1,6 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { createWaveRenderer } from "../src/renderer.js";
+import { createReferenceRenderer } from "./reference-renderer.js";
 import { context } from "./context.js";
 
 function frame(options = {}, time = 0, scale = 1) {
@@ -143,3 +144,166 @@ it("keeps morphing continuous across a full base phase", async () => {
   expect(after.crest).toBeCloseTo(before.crest, 4);
   expect(after.slope).toBeCloseTo(before.slope, 4);
 });
+
+describe("intensity", () => {
+  it("strengthens shading in a single pass without changing geometry", () => {
+    const normal = frame();
+    const strong = frame({ intensity: 2 });
+    expect(strong.points.map(({ alpha, ...p }) => p)).toEqual(
+      normal.points.map(({ alpha, ...p }) => p),
+    );
+    expect(strong.fills).toEqual(normal.fills.map((a) => Math.min(1, a * 2)));
+    expect(strong.raw.fill).toHaveBeenCalledTimes(16);
+  });
+  it("clamps shading before applying field and caller opacity", () => {
+    const c = context();
+    c.ctx.globalAlpha = 0.4;
+    createWaveRenderer(c.ctx).draw(
+      [{ center: { x: 0, y: 0 }, intensity: 100, opacity: 0.5 }],
+      0,
+    );
+    expect(Math.max(...c.fills)).toBeCloseTo(0.2);
+    expect(c.ctx.globalAlpha).toBe(0.4);
+    expect(frame({ intensity: 0 }).points).toHaveLength(0);
+    expect(frame({ opacity: 0 }).points).toHaveLength(0);
+  });
+  it.each([-1, NaN, Infinity])(
+    "rejects invalid intensity %s before drawing any field",
+    (intensity) => {
+      const c = context();
+      expect(() =>
+        createWaveRenderer(c.ctx).draw(
+          [{ center: { x: 0, y: 0 } }, { center: { x: 1, y: 1 }, intensity }],
+          0,
+        ),
+      ).toThrow(/intensity/);
+      expect(c.points).toHaveLength(0);
+    },
+  );
+});
+
+describe("cached renderer compatibility", () => {
+  it("preserves reference geometry, shading and order across changing fields and zooms", () => {
+    const actual = context(),
+      expected = context();
+    const renderer = createWaveRenderer(actual.ctx),
+      reference = createReferenceRenderer(expected.ctx);
+    for (const mode of ["circular", "morphing"] as const)
+      for (const scale of [0.4, 0.54, 0.55, 1, 2])
+        for (const time of [0, 0.8, 2.7, 12345]) {
+          actual.points.length = expected.points.length = 0;
+          const fields = [
+            {
+              center: { x: 123 + (time % 2), y: 240 },
+              mode,
+              morphAmount: 0.65,
+            },
+            {
+              center: { x: 500, y: 200 },
+              mode,
+              radius: 155,
+              innerRadius: 25,
+              wavelength: 40,
+              amplitude: 70,
+              pointSize: 1.4,
+              direction: "outward" as const,
+            },
+          ];
+          renderer.draw(fields, time, { scale });
+          reference.draw(fields, time, { scale });
+          expect(actual.points.length).toBe(expected.points.length);
+          const maxError = { position: 0, size: 0 };
+          expect(actual.points.map((p) => [p.alpha, p.color])).toEqual(
+            expected.points.map((p) => [p.alpha, p.color]),
+          );
+          for (let i = 0; i < actual.points.length; i++) {
+            const a = actual.points[i],
+              b = expected.points[i];
+            maxError.position = Math.max(
+              maxError.position,
+              Math.abs(a.x - b.x),
+              Math.abs(a.y - b.y),
+            );
+            maxError.size = Math.max(
+              maxError.size,
+              Math.abs(a.w - b.w),
+              Math.abs(a.h - b.h),
+            );
+          }
+          expect(maxError.position).toBeLessThan(0.0005);
+          expect(maxError.size).toBeLessThan(0.000005);
+        }
+  });
+  it("observes in-place changes to every geometry key and survives cache eviction", () => {
+    const actual = context(),
+      expected = context();
+    const renderer = createWaveRenderer(actual.ctx),
+      reference = createReferenceRenderer(expected.ctx);
+    const field = {
+      center: { x: 0, y: 0 },
+      radius: 200,
+      innerRadius: 60,
+      wavelength: 50,
+      density: "high" as "high" | "low",
+      mode: "morphing" as const,
+    };
+    for (let i = 0; i < 20; i++) {
+      field.radius = 140 + i * 7;
+      field.innerRadius = 20 + i;
+      field.wavelength = 30 + i;
+      field.density = i % 2 ? "low" : "high";
+      field.center.x = i * 10;
+      actual.points.length = expected.points.length = 0;
+      renderer.draw([field], i / 10);
+      reference.draw([field], i / 10);
+      expect(actual.points.length).toBe(expected.points.length);
+      for (let j = 0; j < actual.points.length; j++) {
+        expect(actual.points[j].x).toBeCloseTo(expected.points[j].x, 3);
+        expect(actual.points[j].alpha).toBe(expected.points[j].alpha);
+      }
+    }
+  });
+});
+
+it("reuses geometry for moving fields and factors morph time outside the lattice", () => {
+  const c = context();
+  const renderer = createWaveRenderer(c.ctx);
+  const field = { center: { x: 0, y: 0 }, mode: "morphing" as const };
+  renderer.draw([field], 0);
+  const hypot = vi.spyOn(Math, "hypot"),
+    atan2 = vi.spyOn(Math, "atan2"),
+    sin = vi.spyOn(Math, "sin");
+  try {
+    c.points.length = 0;
+    renderer.draw(
+      [
+        {
+          ...field,
+          center: { x: 100, y: 200 },
+          amplitude: 50,
+          morphAmount: 0.7,
+        },
+      ],
+      0.5,
+    );
+    expect(hypot).not.toHaveBeenCalled();
+    expect(atan2).not.toHaveBeenCalled();
+    expect(sin.mock.calls.length).toBeLessThanOrEqual(c.points.length + 10);
+  } finally {
+    hypot.mockRestore();
+    atan2.mockRestore();
+    sin.mockRestore();
+  }
+});
+
+it.each(["copy", "destination-in"] as const)(
+  "retains transparent drawing with %s compositing",
+  (operation) => {
+    const c = context();
+    c.ctx.globalCompositeOperation = operation;
+    createWaveRenderer(c.ctx).draw([{ center: { x: 0, y: 0 }, opacity: 0 }], 0);
+    expect(c.points.length).toBeGreaterThan(500);
+    expect(c.fills.every((alpha) => alpha === 0)).toBe(true);
+    expect(c.ctx.globalCompositeOperation).toBe(operation);
+  },
+);
